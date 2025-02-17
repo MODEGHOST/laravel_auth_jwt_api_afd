@@ -17,25 +17,27 @@ class ManualsGovernanController extends Controller
     // เพิ่มข้อมูลพร้อมอัปโหลดไฟล์ PDF
     
     public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'date' => 'required|date',
-            'pdf_file' => 'required|file|mimes:pdf|max:20480', // ตรวจสอบว่าเป็นไฟล์ PDF
-        ]);
-    
-        // อัปโหลดไฟล์ PDF ไปยัง storage/app/public/news
-        $pdfPath = $request->file('pdf_file')->store('news', 'public');
-    
-        // บันทึกข้อมูลลงในฐานข้อมูล
-        $manualsGovernan = ManualsGovernan::create([
-            'title' => $request->input('title'),
-            'date' => $request->input('date'),
-            'pdf_url' => Storage::url($pdfPath), // เก็บ URL ของไฟล์ PDF
-        ]);
-    
-        return response()->json(['message' => 'Created successfully', 'data' => $manualsGovernan]);
-    }
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'date' => 'required|date',
+        'pdf_file' => 'required|file|mimes:pdf|max:20480', // ตรวจสอบว่าเป็นไฟล์ PDF
+    ]);
+
+    // อัปโหลดไฟล์ PDF และเก็บเฉพาะชื่อไฟล์
+    $pdfFile = $request->file('pdf_file');
+    $pdfFilename = $pdfFile->hashName(); // ใช้ hashName เพื่อสร้างชื่อไฟล์ที่ไม่ซ้ำ
+    $pdfFile->storeAs('uploads/pdf_files', $pdfFilename, 'public'); // อัปโหลดไฟล์ไปยังโฟลเดอร์ newsprint
+
+    // บันทึกข้อมูลลงในฐานข้อมูล โดยเก็บเฉพาะชื่อไฟล์
+    $manualsGovernan = ManualsGovernan::create([
+        'title' => $request->input('title'),
+        'date' => $request->input('date'),
+        'pdf_url' => $pdfFilename, // เก็บเฉพาะชื่อไฟล์
+    ]);
+
+    return response()->json(['message' => 'Created successfully', 'data' => $manualsGovernan]);
+}
     
 
     // แก้ไขข้อมูลพร้อมอัปโหลดไฟล์ใหม่
@@ -52,13 +54,14 @@ class ManualsGovernanController extends Controller
         // หากมีการอัปโหลดไฟล์ PDF ใหม่
         if ($request->hasFile('pdf_file')) {
             // ลบไฟล์ PDF เดิม
-            if ($manualsGovernan->pdf_url) {
-                Storage::disk('public')->delete(str_replace('/storage/', '', $manualsGovernan->pdf_url));
+            if ($manualsGovernan->pdf_file) {
+                Storage::disk('public')->delete('uploads/pdf_files/' . $manualsGovernan->pdf_file); // ลบไฟล์เดิมโดยใช้ชื่อไฟล์
             }
-
-            // อัปโหลดไฟล์ PDF ใหม่
-            $pdfPath = $request->file('pdf_file')->store('news', 'public');
-            $manualsGovernan->pdf_url = Storage::url($pdfPath);
+    
+            // อัปโหลดไฟล์ PDF ใหม่ และเก็บเฉพาะชื่อไฟล์
+            $pdfFilename = $request->file('pdf_file')->hashName(); // สร้างชื่อไฟล์ใหม่
+            $request->file('pdf_file')->storeAs('uploads/pdf_files', $pdfFilename, 'public'); // อัปโหลดไฟล์ใหม่
+            $manualsGovernan->pdf_file = $pdfFilename; // เก็บเฉพาะชื่อไฟล์
         }
 
         // อัปเดตข้อมูลอื่นๆ

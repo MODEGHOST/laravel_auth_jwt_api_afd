@@ -20,6 +20,9 @@ use App\Http\Controllers\QuarterlyController;
 use App\Http\Controllers\QuarandyearController;
 use App\Http\Controllers\PolicypaymentController;
 use App\Http\Controllers\ProposeagendaController;
+use App\Http\Controllers\RulecompanyController;
+use App\Http\Controllers\NewselecticController;
+use App\Http\Controllers\VdomeetController;
 
 
 
@@ -60,6 +63,15 @@ Route::group(['middleware' => 'api'], function () {
     Route::delete('/manuals/{id}', [ManualsGovernanController::class, 'destroy']); // DELETE: ลบข้อมูล
 });
 
+Route::group(['middleware' => 'api'], function () {
+    Route::get('/rulecompany', [RulecompanyController::class, 'index']); // GET: ดึงข้อมูลทั้งหมด
+    Route::post('/rulecompany', [RulecompanyController::class, 'store']); // POST: เพิ่มข้อมูลใหม่
+    Route::put('/rulecompany/{id}', [RulecompanyController::class, 'update']); // PUT: อัปเดตข้อมูล
+    Route::post('/rulecompany/{id}', [RulecompanyController::class, 'update']); // POST: อัปเดตข้อมูล (ถ้าต้องการใช้ POST แทน PUT)
+    Route::delete('/rulecompany/{id}', [RulecompanyController::class, 'destroy']); // DELETE: ลบข้อมูล
+});
+
+
 
 Route::group(['middleware' => 'api'], function () {
     Route::get('/news', [NewsController::class, 'index']);
@@ -67,6 +79,14 @@ Route::group(['middleware' => 'api'], function () {
     Route::put('/news/{id}', [NewsController::class, 'update']);
     Route::post('/news/{id}', [NewsController::class, 'update']);
     Route::delete('/news/{id}', [NewsController::class, 'destroy']);
+});
+
+Route::group(['middleware' => 'api'], function () {
+    Route::get('/newselectic', [NewselecticController::class, 'index']);
+    Route::post('/newselectic', [NewselecticController::class, 'store']);
+    Route::put('/newselectic/{id}', [NewselecticController::class, 'update']);
+    Route::post('/newselectic/{id}', [NewselecticController::class, 'update']);
+    Route::delete('/newselectic/{id}', [NewselecticController::class, 'destroy']);
 });
 
 Route::group(['middleware' => 'api'], function () {
@@ -182,7 +202,8 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('/threeyear/all', [ThreeyearController::class, 'index']); // ดึงข้อมูลทั้งหมด
     Route::get('/threeyear/{id}', [ThreeyearController::class, 'show']); // ดึงข้อมูลตาม ID
     Route::post('/threeyear', [ThreeyearController::class, 'store']); // เพิ่มข้อมูล
-    Route::put('/threeyear/{id}', [ThreeyearController::class, 'update']); // แก้ไขข้อมูล
+    Route::put('/threeyear/{id}', [ThreeyearController::class, 'update']); // แก้ไขข้อมูลตาม ID
+    Route::post('/threeyear/comments/update', [ThreeyearController::class, 'update']); // อัปเดต Comment
     Route::delete('/threeyear/{id}', [ThreeyearController::class, 'destroy']); // ลบข้อมูล
 });
 
@@ -201,3 +222,15 @@ Route::group(['middleware' => 'api'], function () {
     Route::put('/quarandyear/{id}', [QuarandyearController::class, 'update']); // แก้ไขข้อมูล
     Route::delete('/quarandyear/{id}', [QuarandyearController::class, 'destroy']); // ลบข้อมูล
 });
+
+
+
+Route::group(['middleware' => 'api'], function () {
+    Route::get('/vdomeet', [VdomeetController::class, 'index']);
+    Route::post('/vdomeet', [VdomeetController::class, 'store']);
+    Route::get('/vdomeet/{id}', [VdomeetController::class, 'show']);
+    Route::put('/vdomeet/{id}', [VdomeetController::class, 'update']);
+    Route::delete('/vdomeet/{id}', [VdomeetController::class, 'destroy']);
+});
+
+

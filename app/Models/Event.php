@@ -12,7 +12,7 @@ class Event extends Model
     protected $table = 'events'; // ชื่อตารางในฐานข้อมูล
 
     protected $fillable = [
-        'data',
+        'date',
         'title',
         'description',
     ];

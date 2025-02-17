@@ -38,6 +38,7 @@ public function store(Request $request)
         'change' => 'nullable|numeric', // ปรับ change เป็น nullable
         'changepercent' => 'nullable|numeric', // เปลี่ยนเป็น nullable
         'trading_value' => 'required|numeric',
+        'trade_amount' => 'nullable|numeric',
     ]);
 
     // ตั้งค่า default value ถ้าไม่มีการเปลี่ยนแปลง (change)
@@ -73,6 +74,7 @@ public function update(Request $request, $id)
         'change' => 'nullable|numeric', // ปรับเป็น nullable
         'changepercent' => 'nullable|numeric', // ปรับเป็น nullable
         'trading_value' => 'required|numeric',
+        'trade_amount' => 'required|numeric',
     ]);
 
     // ตั้งค่า default value ถ้าไม่มีค่า

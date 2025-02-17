@@ -21,5 +21,6 @@ class StockPriceP1 extends Model
         'change',
         'changepercent',
         'trading_value',
+        'trade_amount',
     ];
 }

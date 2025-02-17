@@ -13,12 +13,6 @@ class DetailgenerationController extends Controller
     {
         $data = Detailgeneration::all();
 
-        // เพิ่ม URL เต็มสำหรับ pdf_url
-        $data->map(function ($item) {
-            $item->pdf_url = $item->pdf_url ? asset('storage/' . $item->pdf_url) : null;
-            return $item;
-        });
-
         return response()->json($data, 200);
     }
 
