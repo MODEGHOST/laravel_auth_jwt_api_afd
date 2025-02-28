@@ -51,6 +51,7 @@ Route::group([
     Route::put('/stock-prices/{id}', [StockPriceController::class, 'update']); // แก้ไขข้อมูล
     Route::delete('/stock-prices/{id}', [StockPriceController::class, 'destroy']); // ลบข้อมูล
     Route::get('/stock-prices/latest', [StockPriceController::class, 'getLatest']);
+    Route::post('/stock-prices/import-csv', [StockPriceController::class, 'importCSV']); // นำเข้า CSV
 
 });
 

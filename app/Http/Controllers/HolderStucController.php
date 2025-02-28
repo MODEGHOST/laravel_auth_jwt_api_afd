@@ -19,6 +19,7 @@ class HolderStucController extends Controller
     {
         $request->validate([
             'holder_name' => 'required|string|max:255',
+            'holder_name_en' => 'required|string|max:255',
             'shares_count' => 'required|integer',
             'share_percentage' => 'required|numeric',
         ]);
@@ -34,6 +35,7 @@ class HolderStucController extends Controller
 
         $request->validate([
             'holder_name' => 'required|string|max:255',
+            'holder_name_en' => 'required|string|max:255',
             'shares_count' => 'required|integer',
             'share_percentage' => 'required|numeric',
         ]);

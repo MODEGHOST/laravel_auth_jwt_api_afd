@@ -10,6 +10,7 @@ class Vdomeet extends Model
 
     protected $fillable = [
         'title',
+        'title_en',
         'youtube_link',
         'published_date'
     ];

@@ -12,7 +12,9 @@ class Docread extends Model
 
     protected $fillable = [
         'title',
-        'file_part',
+        'title_en',
+        'file_path',
+        'file_path_en',
         'qr_code_path',
         'date',
     ];

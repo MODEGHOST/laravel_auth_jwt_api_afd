@@ -12,7 +12,9 @@ class Reportmtuser extends Model
 
     protected $fillable = [
         'title',
+        'title_en',
         'pdf_file',
+        'pdf_file_en',
         
     ];
 }

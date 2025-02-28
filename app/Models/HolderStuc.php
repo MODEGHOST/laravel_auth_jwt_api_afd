@@ -11,6 +11,7 @@ class HolderStuc extends Model
 
     protected $fillable = [
         'holder_name',
+        'holder_name_en',
         'shares_count',
         'share_percentage',
     ];

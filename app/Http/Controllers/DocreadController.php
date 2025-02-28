@@ -20,7 +20,9 @@ class DocreadController extends Controller
 {
     $request->validate([
         'title' => 'required|string|max:255',
+        'title_en' => 'required|string|max:255',
         'file' => 'required|file|mimes:pdf|max:20480',
+        'file_path_en' => 'required|file|mimes:pdf|max:20480',
         'date' => 'required|date', // เพิ่มการ validate ฟิลด์ date
     ]);
 
@@ -28,6 +30,10 @@ class DocreadController extends Controller
     $file = $request->file('file');
     $fileName = $file->hashName(); // สร้างชื่อไฟล์แบบไม่ซ้ำ
     $file->storeAs('uploads/pdf_files', $fileName, 'public');
+
+    $file = $request->file('file_path_en');
+    $fileNameEn = $file->hashName(); // สร้างชื่อไฟล์แบบไม่ซ้ำ
+    $file->storeAs('uploads/pdf_files', $fileNameEn, 'public');
 
     // สร้าง QR Code ด้วย URL ที่สมบูรณ์
     $qrCodeFileName = uniqid() . '.png'; // สร้างชื่อไฟล์ QR Code แบบไม่ซ้ำ
@@ -47,7 +53,9 @@ class DocreadController extends Controller
     // บันทึกข้อมูลในฐานข้อมูล โดยเก็บเฉพาะชื่อไฟล์
     $docread = Docread::create([
         'title' => $request->title,
+        'title_en' => $request->title_en,
         'file_path' => $fileName, // เก็บเฉพาะชื่อไฟล์ PDF
+        'file_path_en' => $fileNameEn,
         'qr_code_path' => $qrCodeFileName, // เก็บเฉพาะชื่อไฟล์ QR Code
         'date' => $request->date, // เพิ่มการบันทึกฟิลด์ date
     ]);
@@ -62,7 +70,9 @@ public function update(Request $request, $id)
 
     $request->validate([
         'title' => 'required|string|max:255',
+        'tilen_en' => 'required|string|max:255',
         'file' => 'file|mimes:pdf|max:20480',
+        'file_path_en' => 'file|mimes:pdf|max:20480',
         'date' => 'required|date', // เพิ่มการ validate ฟิลด์ date
     ]);
 
@@ -70,6 +80,9 @@ public function update(Request $request, $id)
         // ลบไฟล์ PDF และ QR Code เดิม
         if ($docread->file_path) {
             Storage::disk('public')->delete('uploads/pdf_files/' . $docread->file_path);
+        }
+        if ($docread->file_path_en) {
+            Storage::disk('public')->delete('uploads/pdf_files/' . $docread->file_path_en);
         }
         if ($docread->qr_code_path) {
             Storage::disk('public')->delete('uploads/images/' . $docread->qr_code_path);
@@ -79,6 +92,10 @@ public function update(Request $request, $id)
         $fileFilename = $request->file('file')->hashName();
         $request->file('file')->storeAs('uploads/pdf_files', $fileFilename, 'public');
         $docread->file_path = $fileFilename;
+
+        $fileFilenameEN = $request->file('file_path_en')->hashName();
+        $request->file('file')->storeAs('uploads/pdf_files', $fileFilenameEN, 'public');
+        $docread->file_path = $fileFilenameEN;
 
         // สร้าง QR Code ใหม่
         $qrCodeFilename = uniqid() . '.png';
@@ -97,6 +114,7 @@ public function update(Request $request, $id)
     }
 
     $docread->title = $request->title;
+    $docread->tilen_en = $request->tilen_en;
     $docread->date = $request->date; // เพิ่มการบันทึกฟิลด์ date
     $docread->save();
 

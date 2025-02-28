@@ -17,12 +17,14 @@ class VdomeetController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'title_en' => 'required|string|max:255',
             'youtube_link' => 'required|url|max:255',
             'published_date' => 'required|date',
         ]);
 
         $video = Vdomeet::create([
             'title' => $request->title,
+            'title_en' => $request->title_en,
             'youtube_link' => $request->youtube_link,
             'published_date' => $request->published_date
         ]);
@@ -40,6 +42,7 @@ class VdomeetController extends Controller
     {
         $request->validate([
             'title' => 'sometimes|required|string|max:255',
+            'title_en' => 'sometimes|required|string|max:255',
             'youtube_link' => 'sometimes|required|url|max:255',
             'published_date' => 'sometimes|required|date',
         ]);

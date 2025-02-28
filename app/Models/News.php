@@ -12,6 +12,6 @@ class News extends Model
     protected $table = 'news';
 
     // กำหนดฟิลด์ที่อนุญาตให้เพิ่มข้อมูลได้
-    protected $fillable = ['date', 'title', 'pdf_url','date'];
+    protected $fillable = ['date', 'title', 'title_en', 'pdf_url', 'pdf_url_en'];
 }
 

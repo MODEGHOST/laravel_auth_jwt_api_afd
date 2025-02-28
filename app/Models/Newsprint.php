@@ -12,5 +12,5 @@ class Newsprint extends Model
     protected $table = 'newsprint';
 
     // กำหนดฟิลด์ที่อนุญาตให้เพิ่ม/แก้ไขได้
-    protected $fillable = ['title', 'date', 'pdf_url','date'];
+    protected $fillable = ['date', 'title', 'title_en', 'pdf_url', 'pdf_url_en'];
 }

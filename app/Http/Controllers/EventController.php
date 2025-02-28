@@ -28,7 +28,9 @@ class EventController extends Controller
         $validated = $request->validate([
             'date' => 'required|date',
             'title' => 'required|string|max:255',
+            'title_en' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'description_en' => 'nullable|string',
         ]);
 
         $event = Event::create($validated);
@@ -77,7 +79,9 @@ class EventController extends Controller
         $validated = $request->validate([
             'date' => 'required|date',
             'title' => 'required|string|max:255',
+            'title_en' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'description_en' => 'nullable|string',
         ]);
 
         $event->update($validated);
